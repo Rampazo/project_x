@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_partner_soccer_tree" model="ir.ui.view">
+        <field name="name">res.partner.soccer.tree</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_tree"/>
+        <field name="arch" type="xml">
+            <field name="email" position="after">
+                <field name="contract"/>
+            </field>
+        </field>
+        </record>
+
+    <record id="view_partner_soccer_form" model="ir.ui.view">
+        <field name="name">res.partner.soccer.form</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <field name="parent_id" position="replace">
+                 <field name="parent_id"
+                                placeholder="Company"
+                                domain="[('is_company', '=', True)]" context="{'default_is_company': True, 'default_supplier': supplier, 'default_customer': customer}"
+                                attrs="{'invisible': ['|', '&amp;', ('is_company','=', True),('parent_id', '=', False),('company_name', '!=', False),('company_name', '!=', '')]}" invisible="1"/>
+                <field name="nickname" placeholder="Nickname"/>
+            </field>
+            <label for="street" position="before">
+                <field name="date_birth"/>
+            </label>
+            <notebook position="inside">
+                <page string="Payments">
+                    <group>
+                        <field name="payment_ids" nolabel="1">
+                            <tree decoration-info="state == 'open'">
+                                <field name="name"/>
+                                <field name="partner_id"/>
+                                <field name="payment_type"/>
+                                <field name="date"/>
+                                <field name="paid" sum="Total Paid"/>
+                                <field name="state"/>
+                            </tree>
+                        </field>
+                    </group>
+                </page>
+            </notebook>
+        </field>
+    </record>
+
+    <menuitem id="res_partner_menu_soccer" parent="menu_soccer_management_root" action="base.action_partner_form" sequence="15"/>
+
+</odoo>

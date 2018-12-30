@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="soccer_payment_view" model="ir.ui.view">
+        <field name="name">Payments Soccer</field>
+        <field name="model">payment.soccer</field>
+        <field name="arch" type="xml">
+            <form string="Payments Soccer">
+                <header>
+                    <field name="state" widget="statusbar" statusbar_visible="open,paid"/>
+                    <button name="action_close_payment" string="Close" type="object" states="open" class="btn-primary"/>
+                </header>
+                <sheet>
+                    <label for="name" class="oe_edit_only"/>
+                    <h1>
+                        <field name="name" default_focus="1" />
+                    </h1>
+                    <group>
+                        <group>
+                            <field name="partner_id" attrs="{'readonly':[('state','!=','open')]}"/>
+                            <field name="payment_type" widget="radio" attrs="{'readonly':[('state','!=','open')]}"/>
+                            <field name="amount" attrs="{'readonly':[('state','!=','open')]}"/>
+                        </group>
+                        <group>
+                            <field name="date" attrs="{'readonly':[('state','!=','open')]}"/>
+                            <field name="date_maturity" attrs="{'readonly':[('state','!=','open')]}"/>
+                            <field name="payment_mode_id" attrs="{'readonly':[('state','!=','open')]}"/>
+                            <field name="paid" attrs="{'readonly':[('state','!=','open')]}"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="observation"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_soccer_payment_tree" model="ir.ui.view">
+        <field name="name">Payments Soccer Tree</field>
+        <field name="model">payment.soccer</field>
+        <field name="arch" type="xml">
+            <tree string="Payments Soccer" decoration-info="state == 'open'">
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="payment_type"/>
+                <field name="date"/>
+                <field name="date_maturity"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="payment_soccer_action" model="ir.actions.act_window">
+            <field name="name">Payments Soccer</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">payment.soccer</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="view_soccer_payment_tree"/>
+        </record>
+
+    <menuitem id="menu_soccer_management_root" name="Soccer Management" sequence="2"/>
+
+    <menuitem id="menu_payment_soccer" action="payment_soccer_action" parent="menu_soccer_management_root" sequence="5"/>
+
+</odoo>

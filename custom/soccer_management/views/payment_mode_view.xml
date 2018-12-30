@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="payment_mode_view" model="ir.ui.view">
+        <field name="name">Payment Mode</field>
+        <field name="model">payment.mode.soccer</field>
+        <field name="arch" type="xml">
+            <form string="Payment Mode">
+                <sheet>
+                    <label for="name" class="oe_edit_only"/>
+                    <h1>
+                        <field name="name" default_focus="1" />
+                    </h1>
+                    <group colspan="4" col="4">
+                        <field name="amount"/>
+                        <field name="payment_mode_default"/>
+                    </group>
+                    <group>
+                        <field name="payment_ids" nolabel="1">
+                            <tree decoration-info="state == 'open'" decoration-danger="paid &lt; 0">
+                                <field name="name"/>
+                                <field name="partner_id"/>
+                                <field name="payment_type"/>
+                                <field name="date"/>
+                                <field name="paid"/>
+                                <field name="state"/>
+                            </tree>
+                        </field>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_payment_mode_tree" model="ir.ui.view">
+        <field name="name">Payment Mode</field>
+        <field name="model">payment.mode.soccer</field>
+        <field name="arch" type="xml">
+            <tree string="Payments Soccer">
+                <field name="name"/>
+                <field name="amount"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="payment_mode_action" model="ir.actions.act_window">
+            <field name="name">Payment Mode</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">payment.mode.soccer</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="view_payment_mode_tree"/>
+        </record>
+
+    <menuitem id="menu_payment_mode" action="payment_mode_action" parent="menu_soccer_management_root" sequence="10"/>
+
+</odoo>
